@@ -123,7 +123,7 @@ class AgglomerativeClusteringImp:
         self.labels_ = labels
 #        self.labels_ = self.label_encode(labels)
         return self
-    
+'''    
     #Hanya dipakai di dalam class
     def label_encode(self, label):
         labelmap = {}
@@ -135,7 +135,7 @@ class AgglomerativeClusteringImp:
                 next_labelmap += 1
             ret_label[i] = labelmap[label[i]]
         return ret_label
-'''
+
     def predict(self, X):
         ret = [None for i in range(len(X))]
         
