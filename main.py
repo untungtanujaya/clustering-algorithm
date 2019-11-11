@@ -12,6 +12,8 @@ def load_csv(filename):
         #MAKE DUMMY ARRAY
         X = np.zeros((1,4))
         label = np.array(None)
+        Xtest = np.zeros((1,4))
+        labeltest = np.array(None)
         for row in csv_reader:
             if line_count == 0:
                 #NOT USING THE COLUMN NAMES
@@ -19,13 +21,19 @@ def load_csv(filename):
                 line_count += 1
             else:
                 #ADD ELEMENT AND LABEL TO ARRAY
-                X = np.append(X, np.array([[float(row[0]),float(row[1]),float(row[2]),float(row[3])]]), axis=0)
-                label = np.append(label, row[4])
+                if line_count % 50 > 44:
+                    Xtest = np.append(Xtest, np.array([[float(row[0]),float(row[1]),float(row[2]),float(row[3])]]), axis=0)
+                    labeltest = np.append(labeltest, row[4])
+                else:
+                    X = np.append(X, np.array([[float(row[0]),float(row[1]),float(row[2]),float(row[3])]]), axis=0)
+                    label = np.append(label, row[4])
                 line_count += 1
         #REMOVE DUMMY ELEMENT
         X = np.delete(X, 0, 0)
         label = np.delete(label, 0)
-    return X, label
+        Xtest = np.delete(Xtest, 0, 0)
+        labeltest = np.delete(labeltest, 0)
+    return X, label, Xtest, labeltest
 
 #HANYA UNTUK DATA IRIS
 def label_encode(label):
@@ -39,13 +47,14 @@ def label_encode(label):
         ret_label[i] = labelmap[label[i]]
     return ret_label
 
-X, label = load_csv('iris.csv')
+X, label, Xtest, labeltest = load_csv('iris.csv')
 #print(f'{X}')
 #print(f'{label}')
 label = label_encode(label)
+labeltest = label_encode(labeltest)
 #print(f'{label}')
-#clustering = agglomerative_implementation.AgglomerativeClusteringImp(linkage='average-group', n_clusters_=3).fit(X)
-#print(f'{clustering.labels_}')
+print(f'{Xtest}')
+print(f'{labeltest}')
 
 #Split data menjadi training dan test
 
