@@ -56,8 +56,8 @@ X, label, Xtest, labeltest = load_csv('iris.csv')
 label = label_encode(label)
 labeltest = label_encode(labeltest)
 #print(f'{label}')
-print(f'{Xtest}')
-print(f'{labeltest}')
+#print(f'{Xtest}')
+#print(f'{labeltest}')
 
 #Split data menjadi training dan test
 
