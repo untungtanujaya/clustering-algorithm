@@ -1,4 +1,6 @@
 #MAIN FUNGSI
+from agglomerative import agglomerative_scikit
+from agglomerative import agglomerative_implementation
 import numpy as np
 import csv
 
@@ -48,13 +50,20 @@ print(f'{label}')
 #Ubah array of label menjadi numerik
 
 #Main menu
-
+print(f'###########################')
+print(f'1. K-means')
+print(f'2. Agglomerative')
+print(f'3. DBScan')
+print(f'###########################')
+algo = input(f'Masukkan input: ')
 #Pilihan K-means, Agglomerative, DBScan
-
+if algo == 1:
     #K-means
+    print(f'DO K-MEANS HERE')
         #Train and Test
-
+elif algo == 2:
     #Agglomerative
+    print(f'DO AGGLOMERATIVE HERE')
     #Pilih Linkage
         #Single
             #Train and Test
@@ -64,6 +73,9 @@ print(f'{label}')
             #Train and Test
         #Average-Group
             #Train and Test
-    
+elif algo == 3:    
     #DBScan
+    print(f'DO DBSCAN HERE')
         #Train and Test
+else:
+    print(f'EXITED')
