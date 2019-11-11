@@ -113,10 +113,9 @@ elif algo == '2':
 elif algo == '3':    
     eps = 0.5
     min_p = 5
-    filename = 'iris.csv'
 
     #Train and Test
-    dbscan = dbscan(filename)
+    dbscan = dbscan(X)
     labels = dbscan.fit(eps, min_p)
     print('from implementation\n', labels)
 
