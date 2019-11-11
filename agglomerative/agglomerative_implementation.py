@@ -32,7 +32,7 @@ class AgglomerativeClusteringImp:
                     distance_matrix[j][i] += (X[i][k] - X[j][k])**2
                 distance_matrix[i][j] = math.sqrt(distance_matrix[i][j])
                 distance_matrix[j][i] = math.sqrt(distance_matrix[j][i])
-        
+
         if self.linkage == 'ward':
             for i in range(len(X)):
                 for j in range(len(X)):
@@ -65,20 +65,20 @@ class AgglomerativeClusteringImp:
                     labels[i] = label_min1
             if self.linkage == 'single':
                 for i in range(len(X)):
-                    if i != label_min2:
+                    if labels[i] == i and i != label_min2:
                         distance_matrix[i][label_min1] = min(distance_matrix[i][label_min1], distance_matrix[i][label_min2])
                         distance_matrix[label_min1][i] = min(distance_matrix[label_min1][i], distance_matrix[label_min2][i])
                 #Perhitungan Jarak baru
                 pass
             elif self.linkage == 'complete':
                 for i in range(len(X)):
-                    if i != label_min2:
+                    if labels[i] == i and i != label_min2:
                         distance_matrix[i][label_min1] = max(distance_matrix[i][label_min1], distance_matrix[i][label_min2])
                         distance_matrix[label_min1][i] = max(distance_matrix[label_min1][i], distance_matrix[label_min2][i])
                 pass
             elif self.linkage == 'average':
                 for i in range(len(X)):
-                    if i != label_min2:
+                    if labels[i] == i and i != label_min2:
                         distance_matrix[i][label_min1] = (cluster_size[label_min1]*distance_matrix[i][label_min1] + cluster_size[label_min2]*distance_matrix[i][label_min2])/(cluster_size[label_min1]+cluster_size[label_min2])
                         distance_matrix[label_min1][i] = (cluster_size[label_min1]*distance_matrix[label_min1][i] + cluster_size[label_min2]*distance_matrix[label_min2][i])/(cluster_size[label_min1]+cluster_size[label_min2])
                 cluster_size[label_min1] += cluster_size[label_min2]
@@ -123,7 +123,7 @@ class AgglomerativeClusteringImp:
         self.labels_ = labels
 #        self.labels_ = self.label_encode(labels)
         return self
-'''    
+'''   
     #Hanya dipakai di dalam class
     def label_encode(self, label):
         labelmap = {}
@@ -165,7 +165,7 @@ with open('iris.csv') as csv_file:
     X = np.delete(X, 0, 0)
     label = np.delete(label, 0)
 
-    clustering = AgglomerativeClusteringImp(linkage='average-group', n_clusters_=3).fit(X)
+    clustering = AgglomerativeClusteringImp(linkage='single', n_clusters_=3).fit(X)
     print(f'Labels = {clustering.labels_}')
     clusteringlabel_nums = AgglomerativeClusteringImp().label_encode(clustering.labels_)
     print(f'Cluster Labels = {clusteringlabel_nums}')
