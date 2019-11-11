@@ -1,6 +1,9 @@
 #MAIN FUNGSI
 from agglomerative import agglomerative_scikit
 from agglomerative import agglomerative_implementation
+
+from dbscan.dbscan_implementation import dbscan 
+
 import numpy as np
 import csv
 
@@ -57,11 +60,11 @@ print(f'3. DBScan')
 print(f'###########################')
 algo = input(f'Masukkan input: ')
 #Pilihan K-means, Agglomerative, DBScan
-if algo == 1:
+if algo == '1':
     #K-means
     print(f'DO K-MEANS HERE')
         #Train and Test
-elif algo == 2:
+elif algo == '2':
     #Agglomerative
     print(f'DO AGGLOMERATIVE HERE')
     #Pilih Linkage
@@ -73,9 +76,15 @@ elif algo == 2:
             #Train and Test
         #Average-Group
             #Train and Test
-elif algo == 3:    
-    #DBScan
-    print(f'DO DBSCAN HERE')
-        #Train and Test
+elif algo == '3':    
+    eps = 0.5
+    min_p = 5
+    filename = 'iris.csv'
+
+    #Train and Test
+    dbscan = dbscan(filename)
+    labels = dbscan.fit(eps, min_p)
+    print('from implementation\n', labels)
+
 else:
     print(f'EXITED')

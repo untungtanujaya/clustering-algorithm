@@ -1,7 +1,7 @@
 import numpy
 import csv
 
-class DbscanImplementation:
+class dbscan:
     def __init__(self, filename):
         data = numpy.zeros((1,4))
         with open(filename) as csv_file:
@@ -32,7 +32,7 @@ class DbscanImplementation:
                 C += 1
                 self.expand(labels, P, NeighborPts, C, eps, min_p)
             
-        return labels
+        return numpy.array(labels)
 
 
     def expand(self, labels, P, NeighborPts, C, eps, min_p):

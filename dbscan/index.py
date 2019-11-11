@@ -2,7 +2,7 @@ from sklearn.cluster import DBSCAN
 import numpy
 import csv
 
-from dbscan_implementation import DbscanImplementation
+from dbscan_implementation import dbscan
 
 eps = 0.5
 min_p = 5
@@ -10,8 +10,8 @@ filename = 'iris.csv'
 
 # Implementation
 
-dbscan_implementation = DbscanImplementation(filename)
-labels = dbscan_implementation.fit(eps, min_p)
+dbscan = dbscan(filename)
+labels = dbscan.fit(eps, min_p)
 print('from implementation\n', numpy.array(labels))
 
 # Scikit
