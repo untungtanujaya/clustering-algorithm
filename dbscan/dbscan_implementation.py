@@ -10,7 +10,6 @@ class DbscanImplementation:
             
             for row in csv_reader:
                 if line_count == 0:
-                    print(f'Column names are {", ".join(row)}')
                     line_count += 1
                 else:
                     data = numpy.append(data, numpy.array([[float(row[0]),float(row[1]),float(row[2]),float(row[3])]]), axis=0)
@@ -18,7 +17,7 @@ class DbscanImplementation:
             data = numpy.delete(data, 0, 0)
             self.data = data
     
-    def dbscan(self, eps, MinPts):
+    def fit(self, eps, min_p):
         labels = [0]*len(self.data)
 
         C = 0
@@ -26,17 +25,17 @@ class DbscanImplementation:
             if not (labels[P] == 0):
                 continue
             
-            NeighborPts = self.regionQuery(P, eps)
-            if len(NeighborPts) < MinPts:
+            NeighborPts = self.getNeighbors(P, eps)
+            if len(NeighborPts) < min_p:
                 labels[P] = -1
             else: 
                 C += 1
-                self.growCluster(labels, P, NeighborPts, C, eps, MinPts)
+                self.expand(labels, P, NeighborPts, C, eps, min_p)
             
         return labels
 
 
-    def growCluster(self, labels, P, NeighborPts, C, eps, MinPts):
+    def expand(self, labels, P, NeighborPts, C, eps, min_p):
         labels[P] = C
         
         i = 0
@@ -47,13 +46,13 @@ class DbscanImplementation:
 
             elif labels[Pn] == 0:
                 labels[Pn] = C
-                PnNeighborPts = self.regionQuery(Pn, eps)
+                PnNeighborPts = self.getNeighbors(Pn, eps)
                 
-                if len(PnNeighborPts) >= MinPts:
+                if len(PnNeighborPts) >= min_p:
                     NeighborPts = NeighborPts + PnNeighborPts
             i += 1        
 
-    def regionQuery(self, P, eps):
+    def getNeighbors(self, P, eps):
         neighbors = []
         
         for Pn in range(0, len(self.data)):
