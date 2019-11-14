@@ -113,8 +113,8 @@ elif algo == '2':
         #Average-Group
         clustering = AgglomerativeClusteringImp(n_clusters_=3, linkage='average-group').fit(X)
         print(f'Our Train label is: {clustering.labels_}')
-        clustering_sklearn = AgglomerativeClustering(n_clusters=3, linkage='average-group').fit(X)
-        print(f'Sklearn Train label is: {clustering_sklearn.labels_}')
+        #clustering_sklearn = AgglomerativeClustering(n_clusters=3, linkage='average-group').fit(X)
+        #print(f'Sklearn Train label is: {clustering_sklearn.labels_}')
             #Train and Test
     accuracy = clustering.predict(Xtest, labeltest)
     print(f'Accuracy is: %.1f percent' %(accuracy))
