@@ -26,7 +26,7 @@ with open('iris.csv') as csv_file:
     X = np.delete(X, 0, 0)
     label = np.delete(label, 0)
     #CLUSTERING
-    clustering = AgglomerativeClustering(linkage='ward', n_clusters=3).fit(X)
+    clustering = AgglomerativeClustering(linkage='single', n_clusters=3).fit(X)
     print(f'Label is:{clustering.labels_}')
     #print(f'Label is:{label}')
     #ENCODE Label to numeric
