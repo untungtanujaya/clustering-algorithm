@@ -1,8 +1,3 @@
-#from sklearn.metrics import pairwise_distances
-#from sklearn.metrics.pairwise import euclidean_distances
-#from sklearn.metrics.cluster import homogeneity_score
-#from sklearn.metrics.cluster import completeness_score
-#from sklearn.metrics.cluster import v_measure_score
 import math
 
 class AgglomerativeClusteringImp:
@@ -171,6 +166,9 @@ class AgglomerativeClusteringImp:
             ret_label[i] = labelmap[label[i]]
         return ret_label
 '''
+from sklearn.metrics.cluster import homogeneity_score
+from sklearn.metrics.cluster import completeness_score
+from sklearn.metrics.cluster import v_measure_score
 #READ CSV to datasets and labels
 import numpy as np
 import csv
@@ -206,8 +204,4 @@ with open('iris.csv') as csv_file:
     print("%.6f" % v_measure_score(labelarray, clustering.labels_))
     print("%.6f" % completeness_score(labelarray, clustering.labels_))
     print("%.6f" % homogeneity_score(labelarray, clustering.labels_))
-
-X = [[0.1, 0.2, 0.3, 0.4], [0.1, 0.2, 0.3, 0.5], [0.4, 0.5, 0.6, 0.7], [0.4, 0.5, 0.6, 0.8], [0.8, 0.9, 1.0, 1.1]]
-clusters = AgglomerativeClusteringImp(linkage='average-group', n_clusters_ = 3).fit(X)
-print(f'Labels = {clusters.labels_}')
 '''
