@@ -4,6 +4,7 @@ from agglomerative import agglomerative_implementation
 
 from dbscan.dbscan_implementation import dbscan 
 
+from sklearn.cluster import DBSCAN
 import numpy as np
 import csv
 
@@ -114,10 +115,14 @@ elif algo == '3':
     eps = 0.5
     min_p = 5
 
-    #Train and Test
+    # Train
     dbscan = dbscan(X)
     dbscan.fit(eps, min_p)
-    print('from implementation\n', dbscan.labels)
 
+    print('Our Train Label Is:\n', dbscan.labels)
+    print('Sklearn Train Label Is:\n', DBSCAN(eps=eps, min_samples=min_p).fit(X).labels_)
+
+    # Test
+    dbscan.predict(Xtest, labeltest)
 else:
     print(f'EXITED')
