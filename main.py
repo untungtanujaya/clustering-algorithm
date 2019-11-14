@@ -117,8 +117,8 @@ elif algo == '3':
 
     #Train and Test
     dbscan = dbscan(X)
-    labels = dbscan.fit(eps, min_p)
-    print('from implementation\n', labels)
+    dbscan.fit(eps, min_p)
+    print('from implementation\n', dbscan.labels)
 
 else:
     print(f'EXITED')

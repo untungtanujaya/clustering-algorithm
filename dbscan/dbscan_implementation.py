@@ -2,14 +2,14 @@ import numpy
 import csv
 
 class dbscan:
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, training_data):
+        self.training_data = training_data
     
     def fit(self, eps, min_p):
-        labels = [0]*len(self.data)
+        labels = [0]*len(self.training_data)
 
         C = 0
-        for P in range(0, len(self.data)):
+        for P in range(0, len(self.training_data)):
             if not (labels[P] == 0):
                 continue
             
@@ -19,9 +19,11 @@ class dbscan:
             else: 
                 C += 1
                 self.expand(labels, P, NeighborPts, C, eps, min_p)
-            
-        return numpy.array(labels)
 
+        self.labels = numpy.array(labels)    
+
+    def predict(self, test_data):
+        pass
 
     def expand(self, labels, P, NeighborPts, C, eps, min_p):
         labels[P] = C
@@ -43,8 +45,8 @@ class dbscan:
     def getNeighbors(self, P, eps):
         neighbors = []
         
-        for Pn in range(0, len(self.data)):
-            if numpy.linalg.norm(self.data[P] - self.data[Pn]) < eps:
+        for Pn in range(0, len(self.training_data)):
+            if numpy.linalg.norm(self.training_data[P] - self.training_data[Pn]) < eps:
                 neighbors.append(Pn)
                 
         return neighbors

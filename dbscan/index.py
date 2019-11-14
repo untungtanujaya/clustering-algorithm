@@ -23,8 +23,8 @@ min_p = 5
 # Implementation
 
 dbscan = dbscan(data)
-labels = dbscan.fit(eps, min_p)
-print('from implementation\n', numpy.array(labels))
+dbscan.fit(eps, min_p)
+print('from implementation\n', dbscan.labels)
 
 # Scikit
 
