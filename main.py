@@ -1,6 +1,6 @@
 #MAIN FUNGSI
 #from agglomerative import agglomerative_scikit
-from agglomerative import agglomerative_implementation
+from agglomerative.agglomerative_implementation import AgglomerativeClusteringImp
 
 from dbscan.dbscan_implementation import dbscan 
 
@@ -89,25 +89,26 @@ elif algo == '2':
     if linkage == '1':
         #Single
         print(f'DO SINGLE LINKAGE HERE')
-        clustering = agglomerative_implementation.AgglomerativeClusteringImp(n_clusters_=3, linkage='single').fit(X)
+        clustering = AgglomerativeClusteringImp(n_clusters_=3, linkage='single').fit(X)
         print(f'{label_encode(clustering.labels_)}')
+        print(f'{clustering.training_data}')
             #Train and Test
     elif linkage == '2':
         #Complete
         print(f'DO COMPLETE LINKAGE HERE')
-        clustering = agglomerative_implementation.AgglomerativeClusteringImp(n_clusters_=3, linkage='complete').fit(X)
+        clustering = AgglomerativeClusteringImp(n_clusters_=3, linkage='complete').fit(X)
         print(f'{label_encode(clustering.labels_)}')
             #Train and Test
     elif linkage == '3':
         #Average
         print(f'DO AVERAGE LINKAGE HERE')
-        clustering = agglomerative_implementation.AgglomerativeClusteringImp(n_clusters_=3, linkage='average').fit(X)
+        clustering = AgglomerativeClusteringImp(n_clusters_=3, linkage='average').fit(X)
         print(f'{label_encode(clustering.labels_)}')
             #Train and Test
     elif linkage == '4':
         #Average-Group
         print(f'DO AVERAGE-GROUP LINKAGE HERE')
-        clustering = agglomerative_implementation.AgglomerativeClusteringImp(n_clusters_=3, linkage='average-group').fit(X)
+        clustering = AgglomerativeClusteringImp(n_clusters_=3, linkage='average-group').fit(X)
         print(f'{label_encode(clustering.labels_)}')
             #Train and Test
 elif algo == '3':    
