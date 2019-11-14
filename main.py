@@ -1,6 +1,7 @@
 #MAIN FUNGSI
 #from agglomerative import agglomerative_scikit
-from agglomerative import agglomerative_implementation
+from sklearn.cluster import AgglomerativeClustering
+from agglomerative.agglomerative_implementation import AgglomerativeClusteringImp
 
 from dbscan.dbscan_implementation import dbscan 
 
@@ -57,8 +58,8 @@ X, label, Xtest, labeltest = load_csv('iris.csv')
 label = label_encode(label)
 labeltest = label_encode(labeltest)
 #print(f'{label}')
-print(f'{Xtest}')
-print(f'{labeltest}')
+#print(f'{Xtest}')
+#print(f'{labeltest}')
 
 #Split data menjadi training dan test
 
@@ -78,7 +79,6 @@ if algo == '1':
         #Train and Test
 elif algo == '2':
     #Agglomerative
-    print(f'DO AGGLOMERATIVE HERE')
     print(f'###########################')
     print(f'1. Single Linkage')
     print(f'2. Complete Linkage')
@@ -86,31 +86,38 @@ elif algo == '2':
     print(f'4. Average-Group Linkage')
     print(f'###########################')
     linkage = input("Masukkan Linkage: ")
+    clustering = None
     #Pilih Linkage
     if linkage == '1':
         #Single
-        print(f'DO SINGLE LINKAGE HERE')
-        clustering = agglomerative_implementation.AgglomerativeClusteringImp(n_clusters_=3, linkage='single').fit(X)
-        print(f'{label_encode(clustering.labels_)}')
+        clustering = AgglomerativeClusteringImp(n_clusters_=3, linkage='single').fit(X)
+        print(f'Our Train label is: {clustering.labels_}')
+        clustering_sklearn = AgglomerativeClustering(n_clusters=3, linkage='single').fit(X)
+        print(f'Sklearn Train label is: {clustering_sklearn.labels_}')
             #Train and Test
     elif linkage == '2':
         #Complete
-        print(f'DO COMPLETE LINKAGE HERE')
-        clustering = agglomerative_implementation.AgglomerativeClusteringImp(n_clusters_=3, linkage='complete').fit(X)
-        print(f'{label_encode(clustering.labels_)}')
+        clustering = AgglomerativeClusteringImp(n_clusters_=3, linkage='complete').fit(X)
+        print(f'Our Train label is: {clustering.labels_}')
+        clustering_sklearn = AgglomerativeClustering(n_clusters=3, linkage='complete').fit(X)
+        print(f'Sklearn Train label is: {clustering_sklearn.labels_}')
             #Train and Test
     elif linkage == '3':
         #Average
-        print(f'DO AVERAGE LINKAGE HERE')
-        clustering = agglomerative_implementation.AgglomerativeClusteringImp(n_clusters_=3, linkage='average').fit(X)
-        print(f'{label_encode(clustering.labels_)}')
+        clustering = AgglomerativeClusteringImp(n_clusters_=3, linkage='average').fit(X)
+        print(f'Our Train label is: {clustering.labels_}')
+        clustering_sklearn = AgglomerativeClustering(n_clusters=3, linkage='average').fit(X)
+        print(f'Sklearn Train label is: {clustering_sklearn.labels_}')
             #Train and Test
     elif linkage == '4':
         #Average-Group
-        print(f'DO AVERAGE-GROUP LINKAGE HERE')
-        clustering = agglomerative_implementation.AgglomerativeClusteringImp(n_clusters_=3, linkage='average-group').fit(X)
-        print(f'{label_encode(clustering.labels_)}')
+        clustering = AgglomerativeClusteringImp(n_clusters_=3, linkage='average-group').fit(X)
+        print(f'Our Train label is: {clustering.labels_}')
+        clustering_sklearn = AgglomerativeClustering(n_clusters=3, linkage='average-group').fit(X)
+        print(f'Sklearn Train label is: {clustering_sklearn.labels_}')
             #Train and Test
+    accuracy = clustering.predict(Xtest, labeltest)
+    print(f'Accuracy is: %.1f percent' %(accuracy))
 elif algo == '3':    
     eps = 0.5
     min_p = 5
