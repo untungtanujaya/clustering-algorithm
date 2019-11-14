@@ -1,5 +1,4 @@
 import numpy
-import csv
 
 class dbscan:
     def __init__(self, training_data):
@@ -11,17 +10,17 @@ class dbscan:
 
         labels = [0]*len(self.training_data)
 
-        C = 0
-        for P in range(0, len(self.training_data)):
-            if not (labels[P] == 0):
+        cluster = 0
+        for training_data_index in range(0, len(self.training_data)):
+            if not (labels[training_data_index] == 0):
                 continue
             
-            NeighborPts = self.getNeighbors(P, eps)
-            if len(NeighborPts) < min_p:
-                labels[P] = -1
+            neighbors_points = self.getNeighbors(training_data_index)
+            if len(neighbors_points) < min_p:
+                labels[training_data_index] = -1
             else: 
-                C += 1
-                self.expand(labels, P, NeighborPts, C, eps, min_p)
+                cluster += 1
+                self.expand(labels, training_data_index, neighbors_points, cluster)
 
         self.labels = numpy.array(labels)
 
@@ -29,12 +28,12 @@ class dbscan:
         # temukan label baru berdasarkan label training
         labels = []
 
-        for P in range(0, len(test_data)):
+        for test_data_index in range(0, len(test_data)):
             neighbors_labels = []
 
-            for Pn in range(0, len(self.training_data)):
-                if numpy.linalg.norm(self.training_data[Pn] - test_data[P]) < self.eps:
-                    neighbors_labels.append(self.labels[Pn])
+            for training_data_index in range(0, len(self.training_data)):
+                if numpy.linalg.norm(self.training_data[training_data_index] - test_data[test_data_index]) < self.eps:
+                    neighbors_labels.append(self.labels[training_data_index])
             
             if len(neighbors_labels) == 0:
                 labels.append(-1)
@@ -48,36 +47,36 @@ class dbscan:
 
         # tentukan akurasi, dibandingkan dengan test_data_label
         correct_predict = 0
-        for Q in range(0, len(test_data_label)):
-            if (labels[Q] == -1):
+        for test_data_label_index in range(0, len(test_data_label)):
+            if (labels[test_data_label_index] == -1):
                 pass
-            elif (test_data_label[Q] + 1 == labels[Q]):
+            elif (test_data_label[test_data_label_index] + 1 == labels[test_data_label_index]):
                 correct_predict += 1
 
         print('Accuracy: ', correct_predict / len(test_data_label) * 100, ' percent')
 
-    def expand(self, labels, P, NeighborPts, C, eps, min_p):
-        labels[P] = C
+    def expand(self, labels, training_data_index, neighbors_points, cluster):
+        labels[training_data_index] = cluster
         
         i = 0
-        while i < len(NeighborPts):    
-            Pn = NeighborPts[i]
-            if labels[Pn] == -1:
-                labels[Pn] = C
+        while i < len(neighbors_points):    
+            point_index = neighbors_points[i]
+            if labels[point_index] == -1:
+                labels[point_index] = cluster
 
-            elif labels[Pn] == 0:
-                labels[Pn] = C
-                PnNeighborPts = self.getNeighbors(Pn, eps)
+            elif labels[point_index] == 0:
+                labels[point_index] = cluster
+                current_neighbors_points = self.getNeighbors(point_index)
                 
-                if len(PnNeighborPts) >= min_p:
-                    NeighborPts = NeighborPts + PnNeighborPts
+                if len(current_neighbors_points) >= self.min_p:
+                    neighbors_points += current_neighbors_points
             i += 1        
 
-    def getNeighbors(self, P, eps):
+    def getNeighbors(self, index):
         neighbors = []
         
-        for Pn in range(0, len(self.training_data)):
-            if numpy.linalg.norm(self.training_data[P] - self.training_data[Pn]) < eps:
-                neighbors.append(Pn)
+        for training_data_index in range(0, len(self.training_data)):
+            if numpy.linalg.norm(self.training_data[index] - self.training_data[training_data_index]) < self.eps:
+                neighbors.append(training_data_index)
                 
         return neighbors
