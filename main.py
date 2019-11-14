@@ -116,8 +116,8 @@ elif algo == '2':
     accuracy = clustering.predict(Xtest, labeltest)
     print(f'Accuracy is: %.1f percent' %(accuracy))
 elif algo == '3':    
-    eps = 0.5
-    min_p = 5
+    eps = float(input(f'Masukkan eps: '))
+    min_p = int(input(f'Masukkan min_p: '))
 
     # Train
     dbscan = dbscan(X)

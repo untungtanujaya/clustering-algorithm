@@ -1,9 +1,13 @@
 import numpy
 
 class dbscan:
+    # Melakukan inisiasi training data pada class
     def __init__(self, training_data):
         self.training_data = training_data
     
+    # Melakukan training dengan menerima masukan
+    # eps: jarak minimal antara 2 sample agar dikatakan bertetangga
+    # min_p: jumlah tetangga minimal yang harus dimiliki suatu sample agar dikatakan core point
     def fit(self, eps, min_p):
         self.eps = eps
         self.min_p = min_p
@@ -24,6 +28,7 @@ class dbscan:
 
         self.labels = numpy.array(labels)
 
+    # Melakukan test berdasarkan hasil training sebelumnya 
     def predict(self, test_data, test_data_label):
         # temukan label baru berdasarkan label training
         labels = []
@@ -55,6 +60,7 @@ class dbscan:
 
         print('Accuracy: ', correct_predict / len(test_data_label) * 100, ' percent')
 
+    # Melakukan pencarian keseluruhan anggota yang sama (satu cluster) 
     def expand(self, labels, training_data_index, neighbors_points, cluster):
         labels[training_data_index] = cluster
         
@@ -72,6 +78,7 @@ class dbscan:
                     neighbors_points += current_neighbors_points
             i += 1        
 
+    # Mendapatkan tetangga untuk sample pada suatu index
     def getNeighbors(self, index):
         neighbors = []
         
