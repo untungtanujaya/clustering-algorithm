@@ -106,8 +106,9 @@ class KMeans:
         for i, centroid in enumerate(self.centroids):
             self.centroids[i]['value'] = c[i]
 
-    def count_accurate(self, test):
+    def predict(self, test, labeltest):
         result = []
+        print(f'Real Data Test Label: {labeltest}')
         for point in test:
             min_d = float('inf')
             min_i = -1
@@ -116,5 +117,10 @@ class KMeans:
                 if min_d > dist:
                     min_d = dist
                     min_i = i
-            result.append(min_d)
-        return result            
+            result.append(min_i)
+        print(f'Predicted Test Label: {result}')
+        count = 0
+        for i in range(len(labeltest)):
+            if labeltest[i] == result[i]:
+                count += 1
+        return count*100/len(labeltest)            

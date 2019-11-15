@@ -69,7 +69,7 @@ labeltest = label_encode(labeltest)
 #print(f'{Xtest}')
 #print(f'{labeltest}')
 XtrainKmeans = np.c_[X, label]
-#print(f'{XtrainKmeans})
+print(f'{XtrainKmeans}')
 
 #Split data menjadi training dan test
 
@@ -89,6 +89,8 @@ if algo == '1':
     n_cluster = int(input("Masukkan Banyak Cluster: "))
     clusters = KMeans(XtrainKmeans, n_cluster)
     print(f'{clusters.centroids}')
+    accuracy = clusters.predict(Xtest, labeltest)
+    print(f'Accuracy is: %.1f percent' %(accuracy))
         #Train and Test
 elif algo == '2':
     #Agglomerative
