@@ -117,7 +117,7 @@ class KMeans:
                 if min_d > dist:
                     min_d = dist
                     min_i = i
-            result.append(min_i)
+            result.append(self.groups[min_i])
         print(f'Predicted Test Label: {result}')
         count = 0
         for i in range(len(labeltest)):
