@@ -2,10 +2,10 @@
 #from agglomerative import agglomerative_scikit
 from sklearn.cluster import AgglomerativeClustering
 from agglomerative.agglomerative_implementation import AgglomerativeClusteringImp
-from kmeans.kmeans import KMeans
+from kmeans.kmeans import kmeans
 from dbscan.dbscan_implementation import dbscan 
 
-from sklearn.cluster import DBSCAN
+from sklearn.cluster import DBSCAN, KMeans
 import numpy as np
 import csv
 
@@ -69,7 +69,7 @@ labeltest = label_encode(labeltest)
 #print(f'{Xtest}')
 #print(f'{labeltest}')
 XtrainKmeans = np.c_[X, label]
-#print(f'{XtrainKmeans}')
+# print(f'{XtrainKmeans}')
 
 #Split data menjadi training dan test
 
@@ -85,11 +85,17 @@ algo = input(f'Masukkan input: ')
 #Pilihan K-means, Agglomerative, DBScan
 if algo == '1':
     #K-means
+    print(f'DO K-MEANS HERE')
     n_cluster = int(input("Masukkan Banyak Cluster: "))
-    clusters = KMeans(XtrainKmeans, n_cluster)
+    clusters = kmeans(XtrainKmeans, n_cluster)
+    print(f'{clusters.centroids}')
     accuracy = clusters.predict(Xtest, labeltest)
     print(f'Accuracy is: %.1f percent' %(accuracy))
         #Train and Test
+        #SKLearn
+    k_means = KMeans(init='k-means++', n_clusters=3).fit(X)
+    pred = k_means.predict(Xtest)
+    print('Test Label SKLearn: ', pred) 
 elif algo == '2':
     #Agglomerative
     print(f'###########################')

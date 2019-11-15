@@ -1,6 +1,6 @@
 import math
 
-class KMeans:
+class kmeans:
     def __init__(self, data, k):
         self.vectors =  self.make_vectors(data)
         self.k = k
