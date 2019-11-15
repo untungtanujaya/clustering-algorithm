@@ -85,10 +85,10 @@ algo = input(f'Masukkan input: ')
 #Pilihan K-means, Agglomerative, DBScan
 if algo == '1':
     #K-means
-    print(f'DO K-MEANS HERE')
     n_cluster = int(input("Masukkan Banyak Cluster: "))
     clusters = kmeans(XtrainKmeans, n_cluster)
-    print(f'{clusters.centroids}')
+    for centroid in clusters.centroids:
+        print(f'{centroid["centroid"], centroid["value"]}')
     accuracy = clusters.predict(Xtest, labeltest)
     print(f'Accuracy is: %.1f percent' %(accuracy))
         #Train and Test
