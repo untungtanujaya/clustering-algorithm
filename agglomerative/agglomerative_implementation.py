@@ -1,8 +1,3 @@
-#from sklearn.metrics import pairwise_distances
-#from sklearn.metrics.pairwise import euclidean_distances
-#from sklearn.metrics.cluster import homogeneity_score
-#from sklearn.metrics.cluster import completeness_score
-#from sklearn.metrics.cluster import v_measure_score
 import math
 
 class AgglomerativeClusteringImp:
@@ -13,7 +8,7 @@ class AgglomerativeClusteringImp:
     training_data = None
 
     def __init__(self, linkage = 'average-group', n_clusters_ = 2):
-        self.linkage = linkage 
+        self.linkage_ = linkage 
         self.n_clusters_ = n_clusters_ 
 
     def fit(self, X):
@@ -33,7 +28,7 @@ class AgglomerativeClusteringImp:
                 distance_matrix[i][j] = math.sqrt(distance_matrix[i][j])
                 distance_matrix[j][i] = math.sqrt(distance_matrix[j][i])
 
-        if self.linkage == 'ward':
+        if self.linkage_ == 'ward':
             for i in range(len(X)):
                 for j in range(len(X)):
                     distance_matrix[i][j] *= distance_matrix[i][j]
@@ -63,20 +58,20 @@ class AgglomerativeClusteringImp:
             for i in range(len(X)):
                 if labels[i] == label_min2:
                     labels[i] = label_min1
-            if self.linkage == 'single':
+            if self.linkage_ == 'single':
                 for i in range(len(X)):
                     if labels[i] == i and i != label_min2:
                         distance_matrix[i][label_min1] = min(distance_matrix[i][label_min1], distance_matrix[i][label_min2])
                         distance_matrix[label_min1][i] = min(distance_matrix[label_min1][i], distance_matrix[label_min2][i])
                 #Perhitungan Jarak baru
                 pass
-            elif self.linkage == 'complete':
+            elif self.linkage_ == 'complete':
                 for i in range(len(X)):
                     if labels[i] == i and i != label_min2:
                         distance_matrix[i][label_min1] = max(distance_matrix[i][label_min1], distance_matrix[i][label_min2])
                         distance_matrix[label_min1][i] = max(distance_matrix[label_min1][i], distance_matrix[label_min2][i])
                 pass
-            elif self.linkage == 'average':
+            elif self.linkage_ == 'average':
                 for i in range(len(X)):
                     if labels[i] == i and i != label_min2:
                         distance_matrix[i][label_min1] = (cluster_size[label_min1]*distance_matrix[i][label_min1] + cluster_size[label_min2]*distance_matrix[i][label_min2])/(cluster_size[label_min1]+cluster_size[label_min2])
@@ -84,7 +79,7 @@ class AgglomerativeClusteringImp:
                 cluster_size[label_min1] += cluster_size[label_min2]
                 cluster_size[label_min2] = 0
                 pass
-            elif self.linkage == 'ward':
+            elif self.linkage_ == 'ward':
                 ni = cluster_size[label_min1]
                 nj = cluster_size[label_min2]
                 for i in range(len(X)):
@@ -120,10 +115,45 @@ class AgglomerativeClusteringImp:
                 distance_matrix[i][label_min2] = None
                 distance_matrix[label_min2][i] = None
             n_clusters = n_clusters - 1
-        self.labels_ = labels
-#        self.labels_ = self.label_encode(labels)
+#        self.labels_ = labels
+        self.labels_ = self.label_encode(labels)
         return self
-'''   
+
+    #Asumsi self.training_data != None
+    #Predict Single Only for now
+    def predict(self, Xtest, labeltest):
+        predicted_label = [None for i in range(len(Xtest))]
+        print(f'Real Data Test Label: {labeltest}')
+        #Make new distance matrix
+        distance_matrix = [[0 for i in range(len(self.training_data))] for j in range(len(Xtest))]
+        for i in range(len(Xtest)):
+            for j in range(len(self.training_data)):
+                for k in range(len(Xtest[i])):
+                    distance_matrix[i][j] += (Xtest[i][k] - self.training_data[j][k])**2
+                    #distance_matrix[j][i] += (Xtest[i][k] - self.training_data[j][k])**2
+                distance_matrix[i][j] = math.sqrt(distance_matrix[i][j])
+                #distance_matrix[j][i] = math.sqrt(distance_matrix[j][i])
+
+        distance_matrix2 = [[0 for i in range(self.n_clusters_)] for j in range(len(Xtest))]
+        for i in range(len(Xtest)):
+            for j in range(self.n_clusters_):
+                value_min = None
+                for k in range(len(self.labels_)):
+                    if self.labels_[k] == j:
+                        if value_min == None or value_min > distance_matrix[i][k]:
+                            value_min = distance_matrix[i][k]
+                            #print(f'{distance_matrix[i][k]}')
+                distance_matrix2[i][j] = value_min
+                if predicted_label[i] == None or distance_matrix2[i][predicted_label[i]] > distance_matrix2[i][j]:
+                    predicted_label[i] = j
+
+        print(f'Predicted Test Label: {predicted_label}')
+        count = 0
+        for i in range(len(labeltest)):
+            if labeltest[i] == predicted_label[i]:
+                count += 1
+        return count*100/len(labeltest)
+   
     #Hanya dipakai di dalam class
     def label_encode(self, label):
         labelmap = {}
@@ -135,14 +165,10 @@ class AgglomerativeClusteringImp:
                 next_labelmap += 1
             ret_label[i] = labelmap[label[i]]
         return ret_label
-
-    def predict(self, X):
-        ret = [None for i in range(len(X))]
-        
-        distance_matrix = 3
-        
-        return ret
-
+'''
+from sklearn.metrics.cluster import homogeneity_score
+from sklearn.metrics.cluster import completeness_score
+from sklearn.metrics.cluster import v_measure_score
 #READ CSV to datasets and labels
 import numpy as np
 import csv
@@ -178,8 +204,4 @@ with open('iris.csv') as csv_file:
     print("%.6f" % v_measure_score(labelarray, clustering.labels_))
     print("%.6f" % completeness_score(labelarray, clustering.labels_))
     print("%.6f" % homogeneity_score(labelarray, clustering.labels_))
-
-X = [[0.1, 0.2, 0.3, 0.4], [0.1, 0.2, 0.3, 0.5], [0.4, 0.5, 0.6, 0.7], [0.4, 0.5, 0.6, 0.8], [0.8, 0.9, 1.0, 1.1]]
-clusters = AgglomerativeClusteringImp(linkage='average-group', n_clusters_ = 3).fit(X)
-print(f'Labels = {clusters.labels_}')
 '''
